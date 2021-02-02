@@ -59,21 +59,23 @@ if __name__ == '__main__':
         net = net.cuda()
 
     criterion = nn.CrossEntropyLoss()
-    # optimizer = torch.optim.Adam(net.parameters(), lr=0.0001)
-    optimizer = torch.optim.SGD(net.parameters(), lr=0.1,
-                                momentum=0.9, weight_decay=5e-4)
-    scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=200, eta_min=0)
+    optimizer = torch.optim.Adam(net.parameters(), lr=0.0001)
+    # optimizer = torch.optim.SGD(net.parameters(), lr=0.1,
+    #                             momentum=0.9, weight_decay=5e-4)
+    # scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=200, eta_min=0)
     n_item = 0
     for epoch in range(num_epoch):
         for i, (data_batch, label_batch) in enumerate(train_dataloader):
             data_batch = data_batch.cuda()
-            optimizer.zero_grad()
             feature_vector = net(data_batch)
             label_batch = label_batch.cuda()
+            optimizer.zero_grad()
             loss = criterion(feature_vector, label_batch)
             loss.backward()
             optimizer.step()
             n_item = n_item + 1
             if n_item % cycle_items_for_test == 1:
-                print("epoch:{}\tn_item:{}\tacc:{:.6f}".format(epoch, n_item, evaluate(net, test_dataloader)))
+                print(
+                    "epoch:{}\tn_item:{}\tacc:{:.6f}\tloss:{:.6f}".format(epoch, n_item, evaluate(net, test_dataloader),
+                                                                          loss.item()))
             scheduler.step()
