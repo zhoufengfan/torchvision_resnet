@@ -8,7 +8,7 @@ import torchvision.transforms as transforms
 class Network2(nn.Module):
     def __init__(self):
         super().__init__()
-        self.resnet50 = torchvision.models.resnet50(pretrained=True)
+        self.resnet50 = torchvision.models.resnet50(pretrained=False)
         self.fc = nn.Linear(1000, 10)
         self.relu = nn.ReLU(True)
 

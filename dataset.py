@@ -8,7 +8,7 @@ import torchvision.transforms as transforms
 
 class Cifar10(Dataset):
     def __init__(self, is_train, transform):
-        self.cifar10_root_dir = r"C:\Users\zff\dataset\cifar-10-batches-py"
+        self.cifar10_root_dir = r"/root/datasets/cifar-10-batches-py"
         self.is_train = is_train
         self.transform = transform
         self.imgs, self.labels = self.get_data_from_pickled_files(self.is_train)
