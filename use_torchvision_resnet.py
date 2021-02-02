@@ -57,8 +57,8 @@ if __name__ == '__main__':
     )
 
     net = Network2()
-    if torch.cuda.device_count() > 1:
-        net = torch.nn.DataParallel(net, device_ids=os.environ["CUDA_VISIBLE_DEVICES"])
+    # if torch.cuda.device_count() > 1:
+    #     net = torch.nn.DataParallel(net, device_ids=os.environ["CUDA_VISIBLE_DEVICES"])
     if torch.cuda.is_available():
         net = net.cuda()
 
