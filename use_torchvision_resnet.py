@@ -64,10 +64,10 @@ if __name__ == '__main__':
     for epoch in range(num_epoch):
         for i, (data_batch, label_batch) in enumerate(train_dataloader):
             data_batch = data_batch.cuda()
-            real_out = net(data_batch)
-            label_batch = label_batch.cuda()
-            loss = criterion(real_out, label_batch)
             optimizer.zero_grad()
+            feature_vector = net(data_batch)
+            label_batch = label_batch.cuda()
+            loss = criterion(feature_vector, label_batch)
             loss.backward()
             optimizer.step()
             n_item = n_item + 1
