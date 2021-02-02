@@ -4,6 +4,7 @@ import pickle
 import os
 import numpy as np
 import torchvision.transforms as transforms
+import cv2
 
 
 class Cifar10(Dataset):
