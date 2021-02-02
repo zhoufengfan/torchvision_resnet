@@ -5,6 +5,7 @@ import torchvision.transforms as transforms
 
 from backbone import Network2
 from dataset import Cifar10
+import os
 
 
 def evaluate(model, loader):
@@ -28,6 +29,7 @@ if __name__ == '__main__':
     item_of_single_class = 10
     batch_size = 128
     cycle_items_for_test = 50
+    os.environ["CUDA_VISIBLE_DEVICES"] = "0,1,2,3"
     # transform2 = transforms.Compose([
     #     transforms.ToTensor(),
     #     transforms.Normalize(mean=(0.5, 0.5, 0.5), std=(0.5, 0.5, 0.5))
@@ -55,6 +57,8 @@ if __name__ == '__main__':
     )
 
     net = Network2()
+    if torch.cuda.device_count() > 1:
+        net = torch.nn.DataParallel(net, device_ids=os.environ["CUDA_VISIBLE_DEVICES"])
     if torch.cuda.is_available():
         net = net.cuda()
 
@@ -78,4 +82,4 @@ if __name__ == '__main__':
                 print(
                     "epoch:{}\tn_item:{}\tacc:{:.6f}\tloss:{:.6f}".format(epoch, n_item, evaluate(net, test_dataloader),
                                                                           loss.item()))
-            scheduler.step()
+            # scheduler.step()
