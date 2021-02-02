@@ -26,14 +26,25 @@ if __name__ == '__main__':
     num_epoch = 500
     data_vector_dim = 20
     item_of_single_class = 10
-    batch_size = 32
+    batch_size = 128
     cycle_items_for_test = 50
+    # transform2 = transforms.Compose([
+    #     transforms.ToTensor(),
+    #     transforms.Normalize(mean=(0.5, 0.5, 0.5), std=(0.5, 0.5, 0.5))
+    # ])
     transform2 = transforms.Compose([
+        transforms.RandomCrop(32, padding=4),
+        transforms.RandomHorizontalFlip(),
         transforms.ToTensor(),
-        transforms.Normalize(mean=(0.5, 0.5, 0.5), std=(0.5, 0.5, 0.5))
+        transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)),
+    ])
+
+    transform3 = transforms.Compose([
+        transforms.ToTensor(),
+        transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)),
     ])
     train_dataset = Cifar10(is_train=True, transform=transform2)
-    test_dataset = Cifar10(is_train=False, transform=transform2)
+    test_dataset = Cifar10(is_train=False, transform=transform3)
 
     train_dataloader = torch.utils.data.DataLoader(
         dataset=train_dataset, batch_size=batch_size, shuffle=True
