@@ -4,6 +4,7 @@ import torch.nn as nn
 import torchvision.transforms as transforms
 
 from backbone import Network2
+from dataset import Cifar10
 
 
 def evaluate(model, loader):
@@ -22,22 +23,18 @@ def evaluate(model, loader):
 
 
 if __name__ == '__main__':
-    model = torchvision.models.resnet50()
-    # dataset = torchvision.datasets.cifar.CIFAR10(root=r"C:\Users\zff\dataset\cifar-10-batches-py", train=True)
     num_epoch = 500
     data_vector_dim = 20
     item_of_single_class = 10
     batch_size = 32
+    cycle_items_for_test = 50
     transform2 = transforms.Compose([
         transforms.ToTensor(),
         transforms.Normalize(mean=(0.5, 0.5, 0.5), std=(0.5, 0.5, 0.5))
     ])
-    train_dataset = torchvision.datasets.cifar.CIFAR10(root=r"C:\Users\zff\dataset\cifar-10-batches-py", train=True,
-                                                       download=True, transform=transform2)
-    test_dataset = torchvision.datasets.cifar.CIFAR10(root=r"C:\Users\zff\dataset\cifar-10-batches-py", train=False,
-                                                      download=True, transform=transform2)
-    # class_num = len(train_dataset.noise_scope_list)
-    # dataset_length = item_of_single_class * class_num
+    train_dataset = Cifar10(is_train=True, transform=transform2)
+    test_dataset = Cifar10(is_train=False, transform=transform2)
+
     train_dataloader = torch.utils.data.DataLoader(
         dataset=train_dataset, batch_size=batch_size, shuffle=True
     )
@@ -60,4 +57,5 @@ if __name__ == '__main__':
             optimizer.zero_grad()
             loss.backward()
             optimizer.step()
-            print("acc:{:.6f}".format(evaluate(net, test_dataloader)))
+            if i % cycle_items_for_test == 1:
+                print("acc:{:.6f}".format(evaluate(net, test_dataloader)))
