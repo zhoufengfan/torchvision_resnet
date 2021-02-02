@@ -28,7 +28,7 @@ if __name__ == '__main__':
     data_vector_dim = 20
     item_of_single_class = 10
     batch_size = 128
-    cycle_items_for_test = 50
+    cycle_epoches_for_test = 2
     os.environ["CUDA_VISIBLE_DEVICES"] = "0,1,2,3"
     # transform2 = transforms.Compose([
     #     transforms.ToTensor(),
@@ -53,10 +53,10 @@ if __name__ == '__main__':
         root='../dataset', train=True, download=True, transform=transform3)
 
     train_dataloader = torch.utils.data.DataLoader(
-        dataset=train_dataset, batch_size=batch_size, shuffle=True
+        dataset=train_dataset, batch_size=batch_size, shuffle=True, num_workers=2
     )
     test_dataloader = torch.utils.data.DataLoader(
-        dataset=test_dataset, batch_size=batch_size, shuffle=True
+        dataset=test_dataset, batch_size=batch_size, shuffle=True, num_workers=2
     )
 
     net = Network2()
@@ -84,8 +84,6 @@ if __name__ == '__main__':
             loss.backward()
             optimizer.step()
             n_item = n_item + 1
-            if n_item % cycle_items_for_test == 1:
-                print(
-                    "epoch:{}\tn_item:{}\tacc:{:.6f}\tloss:{:.6f}".format(epoch, n_item, evaluate(net, test_dataloader),
-                                                                          loss.item()))
-            # scheduler.step()
+        if epoch % cycle_epoches_for_test == 1:
+            print("epoch:{}\tn_item:{}\tacc:{:.6f}".format(epoch, n_item, evaluate(net, test_dataloader)))
+        # scheduler.step()
