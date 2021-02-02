@@ -2,7 +2,7 @@ import torch
 import torchvision
 import torch.nn as nn
 import torchvision.transforms as transforms
-
+import torch.backends.cudnn as cudnn
 from backbone import Network2
 from dataset import Cifar10
 import os
@@ -57,10 +57,13 @@ if __name__ == '__main__':
     )
 
     net = Network2()
+
     # if torch.cuda.device_count() > 1:
     #     net = torch.nn.DataParallel(net, device_ids=os.environ["CUDA_VISIBLE_DEVICES"])
     if torch.cuda.is_available():
         net = net.cuda()
+        net = torch.nn.DataParallel(net)
+        cudnn.benchmark = True
 
     criterion = nn.CrossEntropyLoss()
     optimizer = torch.optim.Adam(net.parameters(), lr=0.0001)
