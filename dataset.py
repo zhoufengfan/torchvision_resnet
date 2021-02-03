@@ -54,7 +54,7 @@ if __name__ == '__main__':
         transforms.Normalize(mean=(0.5, 0.5, 0.5), std=(0.5, 0.5, 0.5))
     ])
     cifar10 = Cifar10(is_train=False, transform=transform2)
-    d1 = cifar10.unpickle(os.path.join(cifar10.cifar10_root_dir, "test_batch"))
+    d1 = cifar10.unpickle(os.path.join(cifar10.cifar10_root_dir, "data_batch_5"))
     print("d1.keys() is", d1.keys())
     print("type(d1[b'batch_label']) is", type(d1[b'batch_label']))
     print("type(d1[b'data']) is", type(d1[b'data']))
