@@ -15,13 +15,13 @@ from dataset import Cifar10
 
 if __name__ == '__main__':
     batch_size = 128
-    torch.backends.cudnn.deterministic = True
-    torch.manual_seed(1)
-    torch.cuda.manual_seed(1)
+    # torch.backends.cudnn.deterministic = True
+    # torch.manual_seed(1)
+    # torch.cuda.manual_seed(1)
     my_transform = transforms.Compose([
-        # transforms.ToPILImage(),
+        transforms.ToPILImage(),
         # transforms.RandomCrop(32, padding=4),
-        transforms.RandomHorizontalFlip(),
+        # transforms.RandomHorizontalFlip(),
         transforms.ToTensor(),
         transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)),
     ])
