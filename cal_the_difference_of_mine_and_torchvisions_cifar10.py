@@ -5,6 +5,7 @@ import torchvision.transforms as transforms
 
 from backbone import Network2
 from dataset import Cifar10
+
 # def set_seed(seed):
 #     torch.backends.cudnn.deterministic = True
 #     torch.backends.cudnn.benchmark = False
@@ -44,7 +45,14 @@ if __name__ == '__main__':
     # print("my_train_dataloader[0] is", my_train_dataloader[0])
     my_train_dataloader_list = [[imgs, labels] for imgs, labels in my_train_dataloader]
     torchvisions_train_dataloader_list = [[imgs, labels] for imgs, labels in torchvisions_train_dataloader]
-    for imgs, labels in my_train_dataloader:
-        print("imgs.shape is", imgs.shape)
-        print("labels.shape is", labels.shape)
-        exit()
+    for i in range(len(my_train_dataloader_list)):
+        # print(torch.all(my_train_dataloader_list[i][0] == torchvisions_train_dataloader_list[i][0]))
+        assert torch.all(
+            my_train_dataloader_list[i][0] == torchvisions_train_dataloader_list[i][0]), "{}th img is different".format(
+            i)
+        assert torch.all(
+            my_train_dataloader_list[i][1] == torchvisions_train_dataloader_list[i][
+                1]), "{}th label is different".format(
+            i)
+    # The line below will be executed.
+    print("The data in my_train_dataloader_list and torchvisions_train_dataloader_list are the same.")
