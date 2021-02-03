@@ -16,7 +16,7 @@ class Cifar10(Dataset):
 
     def unpickle(self, file):
         with open(file, 'rb') as fo:
-            dict = pickle.load(fo, encoding='bytes')
+            dict = pickle.load(fo, encoding='latin1')
         return dict
 
     def get_data_from_pickled_files(self, is_train):
@@ -26,13 +26,13 @@ class Cifar10(Dataset):
             for i in range(1, 6):
                 dict_of_single_pickled_file = self.unpickle(
                     os.path.join(self.cifar10_root_dir, "data_batch_{}".format(str(i))))
-                imgs.append(dict_of_single_pickled_file[b'data'])
-                labels.extend(dict_of_single_pickled_file[b'labels'])
+                imgs.append(dict_of_single_pickled_file['data'])
+                labels.extend(dict_of_single_pickled_file['labels'])
         else:
             dict_of_single_pickled_file = self.unpickle(
                 os.path.join(self.cifar10_root_dir, "test_batch"))
-            imgs.append(dict_of_single_pickled_file[b'data'])
-            labels.extend(dict_of_single_pickled_file[b'labels'])
+            imgs.append(dict_of_single_pickled_file['data'])
+            labels.extend(dict_of_single_pickled_file['labels'])
 
         imgs = np.vstack(imgs).reshape((-1, 3, 32, 32))
         imgs = imgs.transpose((0, 2, 3, 1))
