@@ -4,6 +4,7 @@ import pickle
 import os
 import numpy as np
 import torchvision.transforms as transforms
+from PIL import Image
 
 
 class Cifar10(Dataset):
@@ -40,6 +41,7 @@ class Cifar10(Dataset):
 
     def __getitem__(self, item):
         img, label = self.imgs[item], self.labels[item]
+        img = Image.fromarray(img)
         img = self.transform(img)
         return img, torch.tensor(label, dtype=torch.long)
 
