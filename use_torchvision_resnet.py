@@ -46,12 +46,12 @@ if __name__ == '__main__':
         transforms.ToTensor(),
         transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)),
     ])
-    train_dataset = Cifar10(is_train=True, transform=transform2)
-    # train_dataset = torchvision.datasets.CIFAR10(
-    #     root='../dataset', train=True, download=True, transform=transform2)
-    test_dataset = Cifar10(is_train=False, transform=transform3)
-    # test_dataset = torchvision.datasets.CIFAR10(
-    #     root='../dataset', train=True, download=True, transform=transform3)
+    # train_dataset = Cifar10(is_train=True, transform=transform2)
+    train_dataset = torchvision.datasets.CIFAR10(
+        root='../dataset', train=True, download=True, transform=transform2)
+    # test_dataset = Cifar10(is_train=False, transform=transform3)
+    test_dataset = torchvision.datasets.CIFAR10(
+        root='../dataset', train=True, download=True, transform=transform3)
 
     train_dataloader = torch.utils.data.DataLoader(
         dataset=train_dataset, batch_size=batch_size, shuffle=True, num_workers=2
