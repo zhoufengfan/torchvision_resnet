@@ -62,3 +62,7 @@ if __name__ == '__main__':
     print("type(d1[b'labels']) is", type(d1[b'labels']))
     print("len(d1[b'labels']) is", len(d1[b'labels']))
     print("len(cifar10.labels) is", len(cifar10.labels))
+    print("*" * 100)
+    d2 = cifar10.unpickle(os.path.join(cifar10.cifar10_root_dir, "batches.meta"))
+    print("d2.keys() is", d2.keys())
+    print("d2.keys() is", d2.keys())
