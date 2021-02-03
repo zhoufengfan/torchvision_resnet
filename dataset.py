@@ -53,7 +53,7 @@ if __name__ == '__main__':
         transforms.ToTensor(),
         transforms.Normalize(mean=(0.5, 0.5, 0.5), std=(0.5, 0.5, 0.5))
     ])
-    cifar10 = Cifar10(is_train=True, transform=transform2)
+    cifar10 = Cifar10(is_train=False, transform=transform2)
     d1 = cifar10.unpickle(os.path.join(cifar10.cifar10_root_dir, "data_batch_5"))
     print("d1.keys() is", d1.keys())
     print("type(d1[b'batch_label']) is", type(d1[b'batch_label']))
@@ -68,3 +68,8 @@ if __name__ == '__main__':
     print("d2.keys() is", d2.keys())
     print("*" * 100)
     print("cifar10.__len__() is", cifar10.__len__())
+
+    img_num = 0
+    for img, lebel in cifar10:
+        img_num += 1
+    print("img_num is", img_num)
