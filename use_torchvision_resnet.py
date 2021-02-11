@@ -78,9 +78,21 @@ def run():
     # optimizer = torch.optim.SGD(net.parameters(), lr=0.1,
     #                             momentum=0.9, weight_decay=5e-4)
     # scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=200, eta_min=0)
+    best_acc = 0
+    begin_epoch = 0
     n_item = 0
-    inner_cycle_num = 0
-    for epoch in range(num_epoch):
+    pth_dir_path = r"../parameters"
+    pth_name = "best.pth"
+    pth_path = os.path.join(pth_dir_path, pth_name)
+    if os.path.exists(pth_path):
+        checkpoint = torch.load(pth_path)
+        net.load_state_dict(checkpoint['net'])
+        best_acc = checkpoint['acc']
+        begin_epoch = checkpoint['epoch']
+        optimizer.load_state_dict(checkpoint['optimizer'])
+        n_item = checkpoint['n_item']
+
+    for epoch in range(begin_epoch, begin_epoch + 512):
         for i, (data_batch, label_batch) in track(total=len(train_dataset) // batch_size + 1,
                                                   sequence=enumerate(train_dataloader),
                                                   description="epoch:{}".format(epoch)):
@@ -92,11 +104,22 @@ def run():
             loss.backward()
             optimizer.step()
             n_item = n_item + 1
-            inner_cycle_num = inner_cycle_num + 1
-        logging.info("The cycle num of inner is {}".format(inner_cycle_num))
-        inner_cycle_num = 0
         if epoch % cycle_epoches_for_test == 1:
-            logging.info("epoch:{}\tn_item:{}\tacc:{:.6f}".format(epoch, n_item, evaluate(net, test_dataloader)))
+            acc_now = evaluate(net, test_dataloader)
+            logging.info("epoch:{}\tn_item:{}\tacc:{:.6f}".format(epoch, n_item, acc_now))
+
+            if acc_now > best_acc:
+                state = {
+                    'net': net.state_dict(),
+                    'acc': acc_now,
+                    'epoch': epoch,
+                    "optimizer": optimizer.state_dict(),
+                    'n_item': n_item,
+                }
+                if not os.path.exists(pth_dir_path):
+                    os.mkdir(pth_dir_path)
+                torch.save(state, pth_path)
+
         # scheduler.step()
 
 
