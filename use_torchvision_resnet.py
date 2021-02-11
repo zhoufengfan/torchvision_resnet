@@ -9,6 +9,7 @@ import os
 
 from util import init_log
 import logging
+from rich.progress import track
 
 
 def evaluate(model, loader):
@@ -79,7 +80,7 @@ def run():
     # scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=200, eta_min=0)
     n_item = 0
     for epoch in range(num_epoch):
-        for i, (data_batch, label_batch) in enumerate(train_dataloader):
+        for i, (data_batch, label_batch) in track(enumerate(train_dataloader)):
             data_batch = data_batch.cuda()
             feature_vector = net(data_batch)
             label_batch = label_batch.cuda()
