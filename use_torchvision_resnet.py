@@ -26,14 +26,18 @@ if __name__ == '__main__':
     num_epoch = 500
     data_vector_dim = 20
     item_of_single_class = 10
-    batch_size = 32
-    cycle_items_for_test = 50
+    batch_size = 128
+    cycle_items_for_test = 512
     transform2 = transforms.Compose([
         transforms.ToTensor(),
         transforms.Normalize(mean=(0.5, 0.5, 0.5), std=(0.5, 0.5, 0.5))
     ])
-    train_dataset = Cifar10(is_train=True, transform=transform2)
-    test_dataset = Cifar10(is_train=False, transform=transform2)
+    # train_dataset = Cifar10(is_train=True, transform=transform2)
+    # test_dataset = Cifar10(is_train=False, transform=transform2)
+    train_dataset = torchvision.datasets.CIFAR10(root=r"C:\Users\zff\PycharmProjects\dataset", train=True,
+                                                 transform=transform2)
+    test_dataset = torchvision.datasets.CIFAR10(root=r"C:\Users\zff\PycharmProjects\dataset", train=False,
+                                                transform=transform2)
 
     train_dataloader = torch.utils.data.DataLoader(
         dataset=train_dataset, batch_size=batch_size, shuffle=True
@@ -48,6 +52,7 @@ if __name__ == '__main__':
 
     criterion = nn.CrossEntropyLoss()
     optimizer = torch.optim.Adam(net.parameters(), lr=0.0001)
+    inner_cycle_num = 0
     for epoch in range(num_epoch):
         for i, (data_batch, label_batch) in enumerate(train_dataloader):
             data_batch = data_batch.cuda()
@@ -57,5 +62,8 @@ if __name__ == '__main__':
             optimizer.zero_grad()
             loss.backward()
             optimizer.step()
-            if i % cycle_items_for_test == 1:
-                print("acc:{:.6f}".format(evaluate(net, test_dataloader)))
+            inner_cycle_num = inner_cycle_num + 1
+            # if i % cycle_items_for_test == 1:
+            #     print("acc:{:.6f}".format(evaluate(net, test_dataloader)))
+        print("inner_cycle_num is", inner_cycle_num)
+        inner_cycle_num = 0
