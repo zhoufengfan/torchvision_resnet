@@ -81,7 +81,8 @@ def run():
     n_item = 0
     inner_cycle_num = 0
     for epoch in range(num_epoch):
-        for i, (data_batch, label_batch) in track(total=batch_size, sequence=enumerate(train_dataloader),
+        for i, (data_batch, label_batch) in track(total=len(train_dataset) // batch_size + 1,
+                                                  sequence=enumerate(train_dataloader),
                                                   description="epoch:{}".format(epoch)):
             data_batch = data_batch.cuda()
             feature_vector = net(data_batch)
