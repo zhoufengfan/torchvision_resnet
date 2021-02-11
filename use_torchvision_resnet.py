@@ -7,6 +7,9 @@ from backbone import Network2
 from dataset import Cifar10
 import os
 
+from util import init_log
+import logging
+
 
 def evaluate(model, loader):
     model.eval()
@@ -23,7 +26,7 @@ def evaluate(model, loader):
     return correct / total
 
 
-if __name__ == '__main__':
+def run():
     num_epoch = 500
     data_vector_dim = 20
     item_of_single_class = 10
@@ -86,5 +89,10 @@ if __name__ == '__main__':
             optimizer.step()
             n_item = n_item + 1
         if epoch % cycle_epoches_for_test == 1:
-            print("epoch:{}\tn_item:{}\tacc:{:.6f}".format(epoch, n_item, evaluate(net, test_dataloader)))
+            logging.info("epoch:{}\tn_item:{}\tacc:{:.6f}".format(epoch, n_item, evaluate(net, test_dataloader)))
         # scheduler.step()
+
+
+if __name__ == '__main__':
+    init_log()
+    run()
