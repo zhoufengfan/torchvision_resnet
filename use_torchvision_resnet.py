@@ -79,6 +79,7 @@ def run():
     #                             momentum=0.9, weight_decay=5e-4)
     # scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=200, eta_min=0)
     n_item = 0
+    inner_cycle_num = 0
     for epoch in range(num_epoch):
         for i, (data_batch, label_batch) in track(total=batch_size, sequence=enumerate(train_dataloader),
                                                   description="epoch:{}".format(epoch)):
@@ -90,6 +91,9 @@ def run():
             loss.backward()
             optimizer.step()
             n_item = n_item + 1
+            inner_cycle_num = inner_cycle_num + 1
+        logging.info("The cycle num of inner is {}".format(inner_cycle_num))
+        inner_cycle_num = 0
         if epoch % cycle_epoches_for_test == 1:
             logging.info("epoch:{}\tn_item:{}\tacc:{:.6f}".format(epoch, n_item, evaluate(net, test_dataloader)))
         # scheduler.step()
