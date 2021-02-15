@@ -80,7 +80,7 @@ def cal_the_difference_of_mine_and_torchvisions_cifar10():
     # print("my_train_dataloader[0] is", my_train_dataloader[0])
     my_train_dataloader_list = [[imgs, labels] for imgs, labels in my_train_dataloader]
     torchvisions_train_dataloader_list = [[imgs, labels] for imgs, labels in torchvisions_train_dataloader]
-    for i in range(len(my_train_dataloader_list)):
+    for i in range(len(torchvisions_train_dataloader_list)):
         # print(torch.all(my_train_dataloader_list[i][0] == torchvisions_train_dataloader_list[i][0]))
         assert torch.all(
             my_train_dataloader_list[i][0] == torchvisions_train_dataloader_list[i][0]), "{}th img is different".format(
