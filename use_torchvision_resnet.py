@@ -28,7 +28,7 @@ def evaluate(model, loader):
     return correct / total
 
 
-def run():
+def run(output_files_dir2):
     num_epoch = 500
     data_vector_dim = 20
     item_of_single_class = 10
@@ -66,8 +66,7 @@ def run():
     )
 
     net = Network2()
-    output_files_dir = r"/data/cifar/10"
-    sw = SummaryWriter(comment='net2', logdir=os.path.join(output_files_dir, "tfbd_log"))
+    sw = SummaryWriter(comment='net2', logdir=os.path.join(output_files_dir2, "tfbd_log"))
     ramdom_input = torch.rand(12, 3, 32, 32)
     sw.add_graph(net, (ramdom_input,))
     if torch.cuda.is_available():
@@ -83,7 +82,7 @@ def run():
     best_acc = 0
     begin_epoch = 0
     n_item = 0
-    pth_dir_path = output_files_dir
+    pth_dir_path = output_files_dir2
     pth_name = "best.pth"
     pth_path = os.path.join(pth_dir_path, pth_name)
     if os.path.exists(pth_path):
@@ -128,5 +127,6 @@ def run():
 
 
 if __name__ == '__main__':
-    init_log()
-    run()
+    output_files_dir = r"/data/cifar/10"
+    init_log(os.path.join(output_files_dir,'experiment_result.log'))
+    run(output_files_dir)
