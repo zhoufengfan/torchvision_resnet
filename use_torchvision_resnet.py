@@ -10,6 +10,7 @@ import os
 from util import init_log
 import logging
 from rich.progress import track
+from tensorboardX import SummaryWriter
 
 
 def evaluate(model, loader):
@@ -65,9 +66,10 @@ def run():
     )
 
     net = Network2()
-
-    # if torch.cuda.device_count() > 1:
-    #     net = torch.nn.DataParallel(net, device_ids=os.environ["CUDA_VISIBLE_DEVICES"])
+    output_files_dir = r"/data/cifar/10"
+    sw = SummaryWriter(comment='net2', logdir=os.path.join(output_files_dir, "tfbd_log"))
+    ramdom_input = torch.rand(12, 3, 32, 32)
+    sw.add_graph(net, (ramdom_input,))
     if torch.cuda.is_available():
         net = net.cuda()
         net = torch.nn.DataParallel(net)
@@ -81,7 +83,7 @@ def run():
     best_acc = 0
     begin_epoch = 0
     n_item = 0
-    pth_dir_path = r"../parameters"
+    pth_dir_path = output_files_dir
     pth_name = "best.pth"
     pth_path = os.path.join(pth_dir_path, pth_name)
     if os.path.exists(pth_path):
@@ -101,11 +103,14 @@ def run():
             label_batch = label_batch.cuda()
             optimizer.zero_grad()
             loss = criterion(feature_vector, label_batch)
+            if n_item % 50 == 1:
+                sw.add_scalar('loss curve', loss, n_item)
             loss.backward()
             optimizer.step()
             n_item = n_item + 1
         if epoch % cycle_epoches_for_test == 1:
             acc_now = evaluate(net, test_dataloader)
+            sw.add_scalar('acc curve', acc_now, epoch)
             logging.info("epoch:{}\tn_item:{}\tacc:{:.6f}".format(epoch, n_item, acc_now))
 
             if acc_now > best_acc:
@@ -119,8 +124,7 @@ def run():
                 if not os.path.exists(pth_dir_path):
                     os.mkdir(pth_dir_path)
                 torch.save(state, pth_path)
-
-        # scheduler.step()
+    sw.close()
 
 
 if __name__ == '__main__':
