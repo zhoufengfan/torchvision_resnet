@@ -7,5 +7,5 @@ Acc of `1454e48f82e279707f33b2872a14857d4b00f726` in`linux` branch has reached 9
 
 datset | has augment | acc
 :--------------:|:---------:|:-------:|
-torchvision   | no |  
-mine  | no  |  
+torchvision   | no | 
+mine  | no  | 60%
