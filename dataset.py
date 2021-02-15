@@ -68,9 +68,9 @@ def cal_the_difference_of_mine_and_torchvisions_cifar10():
         transforms.ToTensor(),
         transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)),
     ])
-    my_train_dataset = Cifar10(is_train=True, transform=my_transform)
+    my_train_dataset = Cifar10(is_train=False, transform=my_transform)
     torchvisions_train_dataset = torchvision.datasets.CIFAR10(
-        root='../dataset', train=True, download=True, transform=torchvisions_transform)
+        root='../dataset', train=False, download=True, transform=torchvisions_transform)
     my_train_dataloader = torch.utils.data.DataLoader(
         dataset=my_train_dataset, batch_size=batch_size, shuffle=False, num_workers=2
     )
