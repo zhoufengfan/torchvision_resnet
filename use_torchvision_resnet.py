@@ -104,13 +104,13 @@ def run():
             optimizer.zero_grad()
             loss = criterion(feature_vector, label_batch)
             if n_item % 50 == 1:
-                sw.add_scalar('loss curve', loss, n_item)
+                sw.add_scalar('loss_curve', loss, n_item)
             loss.backward()
             optimizer.step()
             n_item = n_item + 1
         if epoch % cycle_epoches_for_test == 1:
             acc_now = evaluate(net, test_dataloader)
-            sw.add_scalar('acc curve', acc_now, epoch)
+            sw.add_scalar('acc_curve', acc_now, epoch)
             logging.info("epoch:{}\tn_item:{}\tacc:{:.6f}".format(epoch, n_item, acc_now))
 
             if acc_now > best_acc:
