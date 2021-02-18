@@ -7,7 +7,7 @@ Acc of `1454e48f82e279707f33b2872a14857d4b00f726` in`linux` branch has reached 9
 
 All results are without data augment.
 
-datset | download by myself | shuffled | acc
+datset | dataset downloaded manually | shuffled | acc
 :--------------:|:---------:|:-------:|:-------:
 torchvision   | no | yes |99%
 mine  | yes  | yes | 60%
