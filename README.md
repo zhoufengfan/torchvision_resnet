@@ -5,9 +5,12 @@ Before using the code, please download the CIFAR10 dataset. Then change the path
 
 Acc of `1454e48f82e279707f33b2872a14857d4b00f726` in`linux` branch has reached 99% when epoch is 201.
 
-datset | has augment | shuffled | acc
+All results are without data augment.
+
+datset | download by myself | shuffled | acc
 :--------------:|:---------:|:-------:|:-------:
 torchvision   | no | yes |99%
-mine  | no  | yes | 60%
+mine  | yes  | yes | 60%
 torchvision   | no | no |99%
-mine  | no  | no | 60%
+mine  | yes  | no | 60%
+torchvision   | yes | no |%
