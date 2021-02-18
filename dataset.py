@@ -6,10 +6,12 @@ import numpy as np
 import torchvision.transforms as transforms
 from PIL import Image
 import torchvision
+from torchvision.datasets import VisionDataset
 
 
-class Cifar10(Dataset):
-    def __init__(self, is_train, transform):
+class Cifar10(VisionDataset):
+    def __init__(self, is_train, transform, root):
+        super().__init__(root, transform)
         self.cifar10_root_dir = r"/root/datasets/cifar-10-batches-py"
         self.is_train = is_train
         self.transform = transform

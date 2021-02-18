@@ -14,3 +14,4 @@ id|datset | dataset downloaded manually | shuffled | acc
 2|torchvision   | no | no |99%
 3|mine  | yes  | no | 60%
 4|torchvision   | yes | no |99%
+5|mine inherit VisionDataset   | yes | no |%
