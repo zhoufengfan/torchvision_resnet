@@ -10,7 +10,7 @@ from torchvision.datasets import VisionDataset
 
 
 class Cifar10(VisionDataset):
-    def __init__(self, is_train, transform, root):
+    def __init__(self, is_train, transform, root=None):
         super().__init__(root, transform)
         self.cifar10_root_dir = r"/root/datasets/cifar-10-batches-py"
         self.is_train = is_train
