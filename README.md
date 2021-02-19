@@ -15,3 +15,4 @@ id|datset | dataset downloaded manually | shuffled | acc|fluctuation of curve
 3|mine  | yes  | no | 60%|small
 4|torchvision(test in trainset)   | yes | no |99%|small
 5|mine inherit VisionDataset   | yes | no |68%|large
+6|torchvision(test in testset)   | yes | no |68%|small
