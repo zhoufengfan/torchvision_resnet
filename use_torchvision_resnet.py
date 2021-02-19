@@ -59,10 +59,10 @@ def run(output_files_dir2):
         root='/root/datasets/', train=False, download=True, transform=transform3)
 
     train_dataloader = torch.utils.data.DataLoader(
-        dataset=train_dataset, batch_size=batch_size, shuffle=False, num_workers=2
+        dataset=train_dataset, batch_size=batch_size, shuffle=True, num_workers=2
     )
     test_dataloader = torch.utils.data.DataLoader(
-        dataset=test_dataset, batch_size=batch_size, shuffle=False, num_workers=2
+        dataset=test_dataset, batch_size=batch_size, shuffle=True, num_workers=2
     )
 
     net = Network2()
